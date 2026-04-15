@@ -1,144 +1,134 @@
-import React, { useState, useEffect } from "react";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { TransactionProvider } from './context/TransactionContext';
+import { ToastProvider } from './context/ToastContext';
+import ToastContainer from './components/shared/Toast';
+import SpotlightOverlay from './components/theme/SpotlightOverlay';
+import LandingPage from './pages/LandingPage';
+import HomePage from './pages/HomePage';
+import AnalyticsPage from './pages/AnalyticsPage';
+import CategoriesPage from './pages/CategoriesPage';
+import ProfilePage from './pages/ProfilePage';
+import { ROUTES } from './utils/constants';
 
-function App() {
-  const [text, setText] = useState("");
-  const [amount, setAmount] = useState("");
-  const [transactions, setTransactions] = useState([]);
+/**
+ * Protected route wrapper — redirects to landing if not authenticated
+ */
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, isLoading } = useAuth();
 
-  // load data from localStorage
-  useEffect(() => {
-    const savedData = localStorage.getItem("transactions");
-
-    if (savedData) {
-      setTransactions(JSON.parse(savedData));
-    }
-  }, []);
-
-  // save data to localStorage
-  useEffect(() => {
-    localStorage.setItem("transactions", JSON.stringify(transactions));
-  }, [transactions]);
-
-  const addTransaction = () => {
-    if (text === "" || amount === "") {
-      alert("Enter all fields");
-      return;
-    }
-
-    const newItem = {
-      text: text,
-      amount: Number(amount),
-    };
-
-    setTransactions([...transactions, newItem]);
-
-    setText("");
-    setAmount("");
-  };
-
-  const deleteTransaction = (index) => {
-    const updatedList = transactions.filter((item, i) => i !== index);
-    setTransactions(updatedList);
-  };
-
-  // calculations
-  let balance = 0;
-  let income = 0;
-  let expense = 0;
-
-  for (let i = 0; i < transactions.length; i++) {
-    balance = balance + transactions[i].amount;
-
-    if (transactions[i].amount > 0) {
-      income = income + transactions[i].amount;
-    } else {
-      expense = expense + transactions[i].amount;
-    }
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-theme-bg flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <svg className="w-6 h-6 animate-spin text-theme-primary" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <span className="text-theme-text-muted">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
+  if (!isAuthenticated) {
+    return <Navigate to={ROUTES.LANDING} replace />;
+  }
+
+  return children;
+};
+
+/**
+ * Public route — redirects to home if already authenticated
+ */
+const PublicRoute = ({ children }) => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return null;
+
+  if (isAuthenticated) {
+    return <Navigate to={ROUTES.HOME} replace />;
+  }
+
+  return children;
+};
+
+/**
+ * App routes wrapped in auth context
+ */
+const AppRoutes = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        backgroundColor: "#92cee2",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          width: "300px",
-          textAlign: "center",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h1>Expense Tracker</h1>
-
-        <h3>Income: ₹{income}</h3>
-        <h3>Expense: ₹{expense}</h3>
-        <h3>Balance: ₹{balance}</h3>
-
-        <input
-          type="text"
-          placeholder="Enter description"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          style={{ width: "90%", padding: "8px", marginBottom: "10px" }}
+    <AnimatePresence mode="wait">
+      <Routes>
+        <Route
+          path={ROUTES.LANDING}
+          element={
+            <PublicRoute>
+              <LandingPage />
+            </PublicRoute>
+          }
         />
-
-        <input
-          type="number"
-          placeholder="Enter amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          style={{ width: "90%", padding: "8px", marginBottom: "10px" }}
+        <Route
+          path={ROUTES.HOME}
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
         />
-
-        <button
-          onClick={addTransaction}
-          style={{
-            padding: "8px 15px",
-            backgroundColor: "black",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Add
-        </button>
-
-        <h2>Transactions</h2>
-
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {transactions.map((item, i) => {
-            return (
-              <li
-                key={i}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  margin: "8px 0",
-                  padding: "5px",
-                  borderBottom: "1px solid #ddd",
-                  color: item.amount < 0 ? "red" : "green",
-                }}
-              >
-                <span>
-                  {item.text} - ₹{item.amount}
-                </span>
-
-                <button onClick={() => deleteTransaction(i)}>X</button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </div>
+        <Route
+          path={ROUTES.ANALYTICS}
+          element={
+            <ProtectedRoute>
+              <AnalyticsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.CATEGORIES}
+          element={
+            <ProtectedRoute>
+              <CategoriesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.PROFILE}
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to={ROUTES.LANDING} replace />} />
+      </Routes>
+    </AnimatePresence>
   );
-}
+};
+
+/**
+ * Main App component with all providers
+ */
+const App = () => {
+  return (
+    <Router>
+      <AuthProvider>
+        <ThemeProvider>
+          <ToastProvider>
+            <TransactionProvider>
+              <AppRoutes />
+              <ToastContainer />
+              <SpotlightOverlay />
+            </TransactionProvider>
+          </ToastProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </Router>
+  );
+};
 
 export default App;
