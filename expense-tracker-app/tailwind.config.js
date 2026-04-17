@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         theme: {
@@ -27,12 +28,15 @@ module.exports = {
           success: 'var(--color-success)',
           danger: 'var(--color-danger)',
           warning: 'var(--color-warning)',
+          'accent-blue': 'var(--color-accent-blue)',
+          'accent-rose': 'var(--color-accent-rose)',
         },
       },
       boxShadow: {
         'theme': '0 4px 24px var(--color-shadow)',
         'theme-lg': '0 8px 40px var(--color-shadow)',
         'glow': '0 0 20px var(--color-primary-light)',
+        'glow-lg': '0 0 30px var(--color-primary-light)',
       },
       animation: {
         'shimmer': 'shimmer 2s ease-in-out infinite',
