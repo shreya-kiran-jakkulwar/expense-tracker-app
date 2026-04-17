@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const variants = {
-  primary: 'bg-theme-primary hover:bg-theme-primary-hover text-white shadow-lg hover:shadow-xl',
+  primary: 'text-white shadow-lg hover:shadow-glow',
   secondary: 'bg-theme-primary-light text-theme-primary hover:bg-theme-primary hover:text-white border border-theme-border',
   ghost: 'bg-transparent hover:bg-theme-primary-light text-theme-text-secondary hover:text-theme-primary',
-  danger: 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20',
+  danger: 'bg-[#ff6e84]/10 text-[#ff6e84] hover:bg-[#ff6e84] hover:text-white border border-[#ff6e84]/20',
   outline: 'bg-transparent border-2 border-theme-primary text-theme-primary hover:bg-theme-primary hover:text-white',
 };
 
@@ -29,6 +29,9 @@ const Button = ({
   id,
   ...props
 }) => {
+  // Primary variant uses the landing page gradient
+  const isPrimary = variant === 'primary';
+
   return (
     <motion.button
       id={id}
@@ -50,6 +53,7 @@ const Button = ({
         cursor-pointer
         ${className}
       `}
+      style={isPrimary ? { background: 'var(--gradient-primary)' } : {}}
       {...props}
     >
       {loading ? (

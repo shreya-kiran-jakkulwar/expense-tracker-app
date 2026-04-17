@@ -55,7 +55,7 @@ const Input = forwardRef(({
             text-sm
             transition-all duration-200
             focus:outline-none focus:ring-2
-            ${error ? 'focus:ring-red-500/30' : 'focus:ring-theme-primary/30'}
+            ${error ? 'focus:ring-[#ff6e84]/30' : 'focus:ring-theme-primary/30'}
             ${error ? 'focus:border-theme-danger' : 'focus:border-theme-primary'}
             disabled:opacity-50 disabled:cursor-not-allowed
             hover:border-theme-primary/50

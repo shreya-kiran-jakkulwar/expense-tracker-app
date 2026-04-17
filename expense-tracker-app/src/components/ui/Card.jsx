@@ -23,8 +23,9 @@ const Card = ({
         rounded-2xl border border-theme-border
         ${gradient ? 'bg-gradient-to-br from-theme-card to-theme-card-hover' : 'bg-theme-card'}
         shadow-theme
+        backdrop-blur-md
         transition-all duration-300
-        ${hover ? 'hover:shadow-theme-lg hover:border-theme-primary/30' : ''}
+        ${hover ? 'hover:shadow-glow hover:border-theme-primary/30' : ''}
         ${onClick ? 'cursor-pointer' : ''}
         ${padding}
         ${className}
