@@ -11,17 +11,17 @@ const iconMap = {
 };
 
 const colorMap = {
-  success: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
-  error: 'bg-red-500/15 border-red-500/30 text-red-400',
-  info: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
-  warning: 'bg-amber-500/15 border-amber-500/30 text-amber-400',
+  success: 'bg-[#34d399]/15 border-[#34d399]/30 text-[#34d399]',
+  error: 'bg-[#ff6e84]/15 border-[#ff6e84]/30 text-[#ff6e84]',
+  info: 'bg-[#a0e0ff]/15 border-[#a0e0ff]/30 text-[#a0e0ff]',
+  warning: 'bg-[#fbbf24]/15 border-[#fbbf24]/30 text-[#fbbf24]',
 };
 
 const iconColorMap = {
-  success: 'text-emerald-400',
-  error: 'text-red-400',
-  info: 'text-blue-400',
-  warning: 'text-amber-400',
+  success: 'text-[#34d399]',
+  error: 'text-[#ff6e84]',
+  info: 'text-[#a0e0ff]',
+  warning: 'text-[#fbbf24]',
 };
 
 const ToastContainer = () => {

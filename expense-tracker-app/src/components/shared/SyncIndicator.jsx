@@ -8,7 +8,7 @@ const SyncIndicator = () => {
     <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium">
       {syncStatus === 'synced' ? (
         <>
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#34d399] animate-pulse" />
           <span className="text-theme-text-muted hidden sm:inline">Synced</span>
         </>
       ) : (

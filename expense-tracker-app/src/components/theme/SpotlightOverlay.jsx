@@ -60,13 +60,13 @@ const SpotlightOverlay = () => {
         <motion.div
           animate={{
             boxShadow: [
-              '0 0 20px rgba(129, 140, 248, 0.3)',
-              '0 0 40px rgba(129, 140, 248, 0.6)',
-              '0 0 20px rgba(129, 140, 248, 0.3)',
+              '0 0 20px rgba(208, 172, 254, 0.3)',
+              '0 0 40px rgba(208, 172, 254, 0.6)',
+              '0 0 20px rgba(208, 172, 254, 0.3)',
             ],
           }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute rounded-full border-2 border-indigo-400/50"
+          className="absolute rounded-full border-2 border-[#d0acfe]/50"
           style={{
             left: centerX - spotlightRadius,
             top: centerY - spotlightRadius,
