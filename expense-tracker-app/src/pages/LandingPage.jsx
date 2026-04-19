@@ -5,10 +5,9 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useToast } from '../context/ToastContext';
 import { validateLogin } from '../utils/validators';
-import { ROUTES, APP_NAME, APP_DESCRIPTION } from '../utils/constants';
+import { ROUTES } from '../utils/constants';
 import Header from '../components/layout/Header';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
+
 import PageTransition from '../components/layout/PageTransition';
 import { HiUser, HiLockClosed } from 'react-icons/hi';
 import { Activity, Calendar, Tags, FileText, CheckCircle, MoreHorizontal } from 'lucide-react';
